@@ -40,8 +40,8 @@ public class Plugin implements org.gradle.api.Plugin<Project> {
             });
 
         project.getExtensions().configure(JlinkPluginExtension.class, ext -> {
-            if (ext.getTargetPlatforms().isPresent())
-                throw new GradleException("JavaCPP jlink plugin cannot target platform " + ext.getTargetPlatforms().get() + ", only the platform it runs on");
+            if (ext.getTargetPlatforms().isPresent() && ext.getTargetPlatforms().get().size() != 0)
+                throw new GradleException("JavaCPP jlink plugin cannot target a specific platform, only the platform it runs on");
 
             LauncherData ld = ext.getLauncherData().getOrNull();
             if (ld == null) ld = new LauncherData(project.getName());
