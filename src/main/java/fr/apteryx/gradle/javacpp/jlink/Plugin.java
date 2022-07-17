@@ -31,6 +31,8 @@ public class Plugin implements org.gradle.api.Plugin<Project> {
                     targetDirectory = new File(imageDir, "bin");
                 else if (osName.contains("linux"))
                     targetDirectory = new File(imageDir, "lib");
+		else if (osName.contains("mac os x"))
+                    targetDirectory = new File("imageDir", "Contents/Home/lib");
                 else throw new GradleException("Unsupported OS "+osName);
                 task.getTargetDirectory().set(targetDirectory);
                 task.getClearTargetDirectory().set(false);
@@ -39,7 +41,7 @@ public class Plugin implements org.gradle.api.Plugin<Project> {
 
         project.getExtensions().configure(JlinkPluginExtension.class, ext -> {
             if (ext.getTargetPlatforms().isPresent())
-                throw new GradleException("JavaCPP jlink plugin cannot target a specific platform, only the platform it runs on");
+                throw new GradleException("JavaCPP jlink plugin cannot target platform " + ext.getTargetPlatforms().get() + ", only the platform it runs on");
 
             LauncherData ld = ext.getLauncherData().getOrNull();
             if (ld == null) ld = new LauncherData(project.getName());
