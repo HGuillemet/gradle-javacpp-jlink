@@ -1,7 +1,7 @@
 plugins {
     id("java-gradle-plugin")
     id("maven-publish")
-    id("com.gradle.plugin-publish") version "1.0.0"
+    id("com.gradle.plugin-publish") version "0.18.0"
 }
 
 pluginBundle {
@@ -20,8 +20,14 @@ gradlePlugin {
     }
 }
 
+publishing {
+    repositories {
+        mavenLocal()
+    }
+}
+
 group = "fr.apteryx"
-version = "0.1"
+version = "0.2"
 
 repositories {
     mavenLocal()
