@@ -31,9 +31,9 @@ public class Plugin implements org.gradle.api.Plugin<Project> {
                     targetDirectory = new File(imageDir, "bin");
                 else if (osName.contains("linux"))
                     targetDirectory = new File(imageDir, "lib");
-		else if (osName.contains("mac os x"))
-                    targetDirectory = new File("imageDir", "Contents/Home/lib");
-                else throw new GradleException("Unsupported OS "+osName);
+                else if (osName.contains("mac os x"))
+                    targetDirectory = new File(imageDir, "Contents/Home/lib");
+                else throw new GradleException("Unsupported OS " + osName);
                 task.getTargetDirectory().set(targetDirectory);
                 task.getClearTargetDirectory().set(false);
                 task.getSourceSet().set("main");

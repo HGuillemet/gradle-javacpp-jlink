@@ -33,7 +33,7 @@ or
 Groovy DSL:
 ```groovy
 plugins {
-    id 'fr.apteryx.javacpp-jlink' version '0.1'
+    id 'fr.apteryx.javacpp-jlink' version '0.2'
 }
 
 repositories {
@@ -57,7 +57,7 @@ application {
 Kotlin DSL:
 ```kotlin
 plugins {
-    id("fr.apteryx.javacpp-jlink") version "0.1"
+    id("fr.apteryx.javacpp-jlink") version "0.2"
 }
 
 repositories {
