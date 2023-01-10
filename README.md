@@ -33,7 +33,7 @@ or
 Groovy DSL:
 ```groovy
 plugins {
-    id 'fr.apteryx.javacpp-jlink' version '0.2'
+    id 'fr.apteryx.javacpp-jlink' version '0.3'
 }
 
 repositories {
@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.bytedeco:opencv-platform:4.5.5-1.5.8'
+    implementation 'org.bytedeco:opencv-platform:4.6.0-1.5.8'
 }
 
 group = 'my.group'
@@ -57,7 +57,7 @@ application {
 Kotlin DSL:
 ```kotlin
 plugins {
-    id("fr.apteryx.javacpp-jlink") version "0.2"
+    id("fr.apteryx.javacpp-jlink") version "0.3"
 }
 
 repositories {
@@ -65,7 +65,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.bytedeco:opencv-platform:4.5.5-1.5.8")
+    implementation("org.bytedeco:opencv-platform:4.6.0-1.5.8")
 }
 
 group = "my.group"

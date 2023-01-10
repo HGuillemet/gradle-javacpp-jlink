@@ -1,20 +1,19 @@
 plugins {
-    id("java-gradle-plugin")
-    id("maven-publish")
-    id("com.gradle.plugin-publish") version "0.18.0"
+    id("com.gradle.plugin-publish") version "1.1.0"
 }
 
-pluginBundle {
-    website = "https://github.com/HGuillemet/gradle-javacpp-jlink"
-    vcsUrl = "https://github.com/HGuillemet/gradle-javacpp-jlink.git"
-    tags = listOf("javacpp", "jlink", "jpms")
-}
+group = "fr.apteryx"
+version = "0.3"
+
 gradlePlugin {
+    website.set("https://github.com/HGuillemet/gradle-javacpp-jlink")
+    vcsUrl.set("https://github.com/HGuillemet/gradle-javacpp-jlink.git")
     plugins {
         create("jlink") {
             id = "fr.apteryx.javacpp-jlink"
             displayName = "JavaCPP jlink plugin"
             description = "Create a jlink image for applications using JavaCPP"
+            tags.set(listOf("javacpp", "jlink", "jpms"))
             implementationClass = "fr.apteryx.gradle.javacpp.jlink.Plugin"
         }
     }
@@ -26,9 +25,6 @@ publishing {
     }
 }
 
-group = "fr.apteryx"
-version = "0.2"
-
 repositories {
     mavenLocal()
     mavenCentral()
@@ -37,6 +33,6 @@ repositories {
 
 dependencies {
     implementation(gradleApi())
-    implementation("fr.apteryx:gradle-javacpp-libextract:0.2")
-    implementation("org.beryx:badass-jlink-plugin:2.25.0")
+    implementation("fr.apteryx:gradle-javacpp-libextract:0.3")
+    implementation("org.beryx:badass-jlink-plugin:2.26.0")
 }
