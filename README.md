@@ -33,7 +33,7 @@ or
 Groovy DSL:
 ```groovy
 plugins {
-    id 'fr.apteryx.javacpp-jlink' version '0.3'
+    id 'fr.apteryx.javacpp-jlink' version '0.4'
 }
 
 repositories {
@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.bytedeco:opencv-platform:4.6.0-1.5.8'
+    implementation 'org.bytedeco:opencv-platform:4.7.0-1.5.9'
 }
 
 group = 'my.group'
@@ -52,12 +52,18 @@ application {
     mainModule = 'my.module'
     mainClass = 'my.module.MainClass'
 }
+
+jlink {
+  jpackage {
+    vendor = 'my institution'
+  }
+}
 ```
 
 Kotlin DSL:
 ```kotlin
 plugins {
-    id("fr.apteryx.javacpp-jlink") version "0.3"
+    id("fr.apteryx.javacpp-jlink") version "0.4"
 }
 
 repositories {
@@ -65,7 +71,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.bytedeco:opencv-platform:4.6.0-1.5.8")
+    implementation("org.bytedeco:opencv-platform:4.7.0-1.5.9")
 }
 
 group = "my.group"
@@ -76,10 +82,16 @@ application {
     mainModule.set("my.module")
     mainClass.set("my.module.MainClass")
 }
+
+jlink {
+    jpackage {
+        vendor = "my institution"
+    }
+}
 ```
 
 Users must be aware of these limitations:
 1. Cross-platform jlink is not supported. An exception is thrown if the Badass jlink plugin is configured with specific target platforms.
 2. Supported operating systems are macOS, Linux and Windows. 
 3. This plugin cannot run in Gradle daemon. Daemon mode can be disabled using the `--no-daemon` Gradle command line option, or by adding `org.gradle.daemon=false` to your `gradle.properties` file.
-4. JavaCPP 1.5.8 is required.
+4. JavaCPP 1.5.8 or later is required.
