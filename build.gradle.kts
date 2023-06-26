@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "fr.apteryx"
-version = "0.4"
+version = "0.5"
 
 gradlePlugin {
     website.set("https://github.com/HGuillemet/gradle-javacpp-jlink")

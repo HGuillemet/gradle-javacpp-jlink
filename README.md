@@ -9,16 +9,23 @@ However, it is not the best solution for the following reasons:
 * the native jar may contain a lot of useless libraries and files you don't want to include in your minimal image.
 * the native modules must be added in the modules graph using `--add-modules` command line option of jlink and this may be tricky.
 
-This Gradle plugin overcome these problems by pre-extracting the actually-used libraries in the 
+This Gradle plugin overcomes these problems by pre-extracting the actually-used libraries in the 
 Java runtime of the jlink image and thus allowing to not include the native jar file in the image.
 It automatically applies two plugins: the Badass jlink plugin and JavaCPP libextract plugin.
 
-The libextract plugin is configured to extract the libraries corresponding to the main source set in 
-the output directory of the Badass jlink plugin, in the proper subdirectory depending on the target platform.
+More precisely, this plugin does the following:
+* A task called `libExtractToImage`, of type `ExtractLibraries` from the libextract plugin,
+is run as a finalizer of the `jlink` task to extract the libraries corresponding to the main source set in 
+the runtime image, in the proper subdirectory depending on the target platform.
 
-The Badass jlink plugin configuration is amended by adding command line parameter 
+* The Badass jlink plugin extension is amended by adding command line parameter 
 `-Dorg.bytedeco.javacpp.findlibraries=false` to the launchers.
 The `findLibraries` property, added in JavaCPP 1.5.8, inform JavaCPP to skip the usual library search in resources.
+
+* When jpackage copies the jlink custom runtime to an application image, on Linux and MacOSX, it follows the symbolic link.
+This has the effect of storing multiple copies of the same native libraries in the application packages. This 
+plugin prevents this by adding an action to the `jpackageImage` task of the Badass jlink plugin to
+restore the symbolic links.
 
 The build script of an example application using OpenCV is shown below. To build the image of such application, run:
 ```bash
@@ -94,4 +101,3 @@ Users must be aware of these limitations:
 1. Cross-platform jlink is not supported. An exception is thrown if the Badass jlink plugin is configured with specific target platforms.
 2. Supported operating systems are macOS, Linux and Windows. 
 3. This plugin cannot run in Gradle daemon. Daemon mode can be disabled using the `--no-daemon` Gradle command line option, or by adding `org.gradle.daemon=false` to your `gradle.properties` file.
-4. JavaCPP 1.5.8 or later is required.
