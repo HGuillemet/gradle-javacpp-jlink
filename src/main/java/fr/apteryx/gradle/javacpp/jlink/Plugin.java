@@ -83,7 +83,7 @@ public class Plugin implements org.gradle.api.Plugin<Project> {
                                         Path target = libOutputPath.resolve(relPath);
                                         if (!Files.exists(target)) {
                                             project.getLogger().warn(target + " does not exist");
-                                        } else {
+                                        } else if (!Files.isSymbolicLink(target)) {
                                             Files.delete(target);
                                             Files.createSymbolicLink(target, l);
                                             project.getLogger().info("Restored symlink " + relPath);
