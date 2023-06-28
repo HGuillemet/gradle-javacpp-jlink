@@ -25,10 +25,12 @@ More precisely, this plugin does the following:
   `-Dorg.bytedeco.javacpp.findlibraries=false` to the launchers.
   The `findLibraries` property, added in JavaCPP 1.5.8, inform JavaCPP to skip the usual library search in resources.
 
-* As of OpenJDK 20, when jpackage copies a jlink custom runtime to an application image, on Linux and MacOSX, it
-  follows the symbolic link. Since JavaCPP creates symlink when extracting native libraries, we end up storing multiple
+* Linux and MacOSX: as of OpenJDK 20
+  (see [Bug #8310933](https://bugs.java.com/bugdatabase/view_bug?bug_id=JDK-8310933)), when jpackage
+  copies a jlink custom runtime to an application image, symbolic links are followed. Since JavaCPP creates symlinks when
+  extracting native libraries, we end up storing multiple
   copies of the same native libraries in the application packages. This
-  plugin prevents this by adding an action to the `jpackageImage` task of the Badass jlink plugin to
+  plugin works around this by adding an action to the `jpackageImage` task of the Badass jlink plugin to
   restore the symbolic links. Note that if you asked jpackage to sign the app on MacOSX, the
   replacement of the native libraries by symlinks will invalidate the signature. You need to sign the app again,
   for instance in a task registered as finalizer for `jpackageImage`.
@@ -49,7 +51,7 @@ Groovy DSL:
 
 ```groovy
 plugins {
-    id 'fr.apteryx.javacpp-jlink' version '0.4'
+    id 'fr.apteryx.javacpp-jlink' version '0.5'
 }
 
 repositories {
@@ -80,7 +82,7 @@ Kotlin DSL:
 
 ```kotlin
 plugins {
-    id("fr.apteryx.javacpp-jlink") version "0.4"
+    id("fr.apteryx.javacpp-jlink") version "0.5"
 }
 
 repositories {

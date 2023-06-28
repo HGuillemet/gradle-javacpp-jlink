@@ -33,6 +33,6 @@ repositories {
 
 dependencies {
     implementation(gradleApi())
-    implementation("fr.apteryx:gradle-javacpp-libextract:0.4")
+    implementation("fr.apteryx:gradle-javacpp-libextract:0.5")
     implementation("org.beryx:badass-jlink-plugin:2.26.0")
 }
