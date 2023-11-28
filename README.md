@@ -7,7 +7,7 @@ However, it is not the best solution for the following reasons:
 
 * the native library will be silently extracted to a user cache directory
   (`$HOME/.javacpp/cache` if not configured otherwise) that is never cleaned.
-* the native jar may contain a lot of useless libraries and files you don't want to include in your minimal image.
+* the native jar may contain a lot of useless libraries and other files you don't want to include in your minimal image.
 * the native modules must be added in the modules graph using `--add-modules` command line option of jlink and this may
   be tricky.
 
@@ -18,15 +18,15 @@ It automatically applies two plugins: the Badass jlink plugin and JavaCPP libext
 More precisely, this plugin does the following:
 
 * A task called `libExtractToImage`, of type `ExtractLibraries` from the libextract plugin,
-  is run as a finalizer of the `jlink` task to extract the libraries corresponding to the `main` source set in
-  the runtime image, in the proper subdirectory depending on the target platform.
+  is run as a finalizer of the `jlink` task to extract the libraries used by the `main` source set and
+  by all launchers in the runtime image, in the proper subdirectory depending on the target platform.
 
 * The Badass jlink plugin extension is amended before execution of the `jlink` task by adding command line parameter
   `-Dorg.bytedeco.javacpp.findlibraries=false` to the launchers.
   The `findLibraries` property, added in JavaCPP 1.5.8, inform JavaCPP to skip the usual library search in resources.
 
-* Linux and MacOSX: as of OpenJDK 20
-  (see [Bug #8310933](https://bugs.java.com/bugdatabase/view_bug?bug_id=JDK-8310933)), when jpackage
+* Linux and MacOSX: until OpenJDK 22
+  (see [Bug #8310933](https://bugs.openjdk.org/browse/JDK-8310933)), when jpackage
   copies a jlink custom runtime to an application image, symbolic links are followed. Since JavaCPP creates symlinks when
   extracting native libraries, we end up storing multiple
   copies of the same native libraries in the application packages. This
@@ -51,7 +51,7 @@ Groovy DSL:
 
 ```groovy
 plugins {
-    id 'fr.apteryx.javacpp-jlink' version '0.5'
+    id 'fr.apteryx.javacpp-jlink' version '0.6'
 }
 
 repositories {
@@ -82,7 +82,7 @@ Kotlin DSL:
 
 ```kotlin
 plugins {
-    id("fr.apteryx.javacpp-jlink") version "0.5"
+    id("fr.apteryx.javacpp-jlink") version "0.6"
 }
 
 repositories {

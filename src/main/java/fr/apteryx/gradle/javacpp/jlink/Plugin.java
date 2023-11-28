@@ -50,6 +50,18 @@ public class Plugin implements org.gradle.api.Plugin<Project> {
                     }));
                     extractLibrariesTask.getClearTargetDirectory().set(false);
                     extractLibrariesTask.getSourceSet().set("main");
+
+                    // Add classes of launchers, in case they live outside main source set
+                    JlinkPluginExtension ext = (JlinkPluginExtension) project.getExtensions().getByName("jlink");
+                    ArrayList<String> additionalClasses = new ArrayList<>();
+                    additionalClasses.add(ext.getMainClass().get());
+                    if (ext.getSecondaryLaunchers().isPresent()) {
+                        List<SecondaryLauncherData> secondaryLauncherDataList = ext.getSecondaryLaunchers().get();
+                        for (SecondaryLauncherData sld : secondaryLauncherDataList) {
+                            additionalClasses.add(sld.getMainClass());
+                        }
+                    }
+                    extractLibrariesTask.getAdditionalClasses().set(additionalClasses);
                 });
         project.getTasks().named("jlink", task -> task.finalizedBy(libExtract));
 

@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "fr.apteryx"
-version = "0.5"
+version = "0.6"
 
 gradlePlugin {
     website.set("https://github.com/HGuillemet/gradle-javacpp-jlink")
@@ -33,6 +33,6 @@ repositories {
 
 dependencies {
     implementation(gradleApi())
-    implementation("fr.apteryx:gradle-javacpp-libextract:0.5")
-    implementation("org.beryx:badass-jlink-plugin:2.26.0")
+    implementation("fr.apteryx:gradle-javacpp-libextract:0.6")
+    implementation("org.beryx:badass-jlink-plugin:3.0.1")
 }
