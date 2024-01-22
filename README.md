@@ -116,3 +116,5 @@ Users must be aware of these limitations:
 2. Supported operating systems are macOS, Linux and Windows.
 3. This plugin cannot run in Gradle daemon. Daemon mode can be disabled using the `--no-daemon` Gradle command line
    option, or by adding `org.gradle.daemon=false` to your `gradle.properties` file.
+
+Java 17+ is required.
