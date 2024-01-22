@@ -1,9 +1,11 @@
 plugins {
-    id("com.gradle.plugin-publish") version "1.2.0"
+    id("com.gradle.plugin-publish") version "1.2.1"
 }
 
 group = "fr.apteryx"
 version = "0.6"
+
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 gradlePlugin {
     website.set("https://github.com/HGuillemet/gradle-javacpp-jlink")

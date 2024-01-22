@@ -11,6 +11,7 @@ import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.beryx.jlink.data.JlinkPluginExtension;
 import org.gradle.api.file.Directory;
+import org.gradle.api.plugins.JavaApplication;
 import org.gradle.api.tasks.TaskProvider;
 
 import java.io.File;
@@ -54,11 +55,24 @@ public class Plugin implements org.gradle.api.Plugin<Project> {
                     // Add classes of launchers, in case they live outside main source set
                     JlinkPluginExtension ext = (JlinkPluginExtension) project.getExtensions().getByName("jlink");
                     ArrayList<String> additionalClasses = new ArrayList<>();
-                    additionalClasses.add(ext.getMainClass().get());
+                    if (ext.getMainClass().isPresent()) {
+                        String mc = ext.getMainClass().get();
+                        if (!mc.isEmpty()) additionalClasses.add(mc);
+                    }
+                    if (additionalClasses.isEmpty()) {
+                        if (project.getExtensions().getByName("application") instanceof JavaApplication ja) {
+                            if (ja.getMainClass().isPresent()) {
+                                String mc = ja.getMainClass().get();
+                                if (!mc.isEmpty()) additionalClasses.add(mc);
+                            }
+                        }
+                    }
+
                     if (ext.getSecondaryLaunchers().isPresent()) {
                         List<SecondaryLauncherData> secondaryLauncherDataList = ext.getSecondaryLaunchers().get();
                         for (SecondaryLauncherData sld : secondaryLauncherDataList) {
-                            additionalClasses.add(sld.getMainClass());
+                            String c = sld.getMainClass();
+                            if (c != null) additionalClasses.add(sld.getMainClass());
                         }
                     }
                     extractLibrariesTask.getAdditionalClasses().set(additionalClasses);
@@ -70,7 +84,7 @@ public class Plugin implements org.gradle.api.Plugin<Project> {
             jPackageImageTask.doLast(t -> {
                 String osName = System.getProperty("os.name").toLowerCase();
                 if (osName.contains("win")) return;
-                Directory inputDir = jPackageImageTask.getImageDir();
+                File inputDir = jPackageImageTask.getImageInputDir();
                 JPackageData jpd = jPackageImageTask.getJpackageData();
                 File outputDir = jpd.getImageOutputDir();
                 project.getLogger().info("Restoring symlinks");
