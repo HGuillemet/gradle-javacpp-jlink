@@ -78,6 +78,8 @@ public class Plugin implements org.gradle.api.Plugin<Project> {
                     extractLibrariesTask.getAdditionalClasses().set(additionalClasses);
                 });
         project.getTasks().named("jlink", task -> task.finalizedBy(libExtract));
+        project.getTasks().named("jlinkZip", task -> task.dependsOn(libExtract));
+        project.getTasks().named("jpackageImage", task -> task.dependsOn(libExtract));
 
         // Add new action in jpackageImage task to restore symlinks
         project.getTasks().named("jpackageImage", JPackageImageTask.class, jPackageImageTask -> {
